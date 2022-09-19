@@ -29,11 +29,15 @@ As an application, a robust least squares solver RLS is included. RLS solves a l
 
 If r has the default value, RLS it can be used to regularize least squares problems. In ill-conditioned cases, it yields much better approximate solutions than x=A\b, though at a time penalty.
 
-All versions of MINQ are licenced. The required m-files can be downloaded as the gzipped tar file minq8.tar.gz (for Matlab 8; 255K). The individual files may be viewed from the minq8 directory. The theory behind MINQ8 is described here.
+All versions of MINQ are [licenced](LICENSE). 
 
-The Matlab 5 version minq5.tar.gz (for Matlab 5; 48K) and the Matlab 4 version (minq.tar.gz; 43K; no sparse facilities, no RLS) are no longer supported.
+The primary reference for the original source is: http://arnold-neumaier.at/software/minq/
 
-Source: http://arnold-neumaier.at/software/minq/
+The theory behind MINQ8 is described in [this paper](https://arnold-neumaier.at/software/minq/minq8/minq8.pdf).
+
+The current version is minq8 
+The required m-files for minq8 can be downloaded:
+- as the gzipped tar file [minq8.tar.gz (for Matlab 8; 255K)](https://arnold-neumaier.at/software/minq/minq8.tar.gz). - in this repository from the [minq8](https://github.com/POptUS/MINQ/tree/main/minq8) directory. 
 
 If you want to reference MINQ, you may use the following format:
 
