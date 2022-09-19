@@ -37,12 +37,13 @@ The theory behind MINQ8 is described in [this paper](https://arnold-neumaier.at/
 
 The current version is minq8 
 The required m-files for minq8 can be downloaded:
-- as the gzipped tar file [minq8.tar.gz (for Matlab 8; 255K)](https://arnold-neumaier.at/software/minq/minq8.tar.gz). - in this repository from the [minq8](https://github.com/POptUS/MINQ/tree/main/minq8) directory. 
+- as the gzipped tar file [minq8.tar.gz (for Matlab 8; 255K)](https://arnold-neumaier.at/software/minq/minq8.tar.gz).
+- in this repository from the [minq8](https://github.com/POptUS/MINQ/tree/main/minq8) directory. 
 
 If you want to reference MINQ, you may use the following format:
 
 W. Huyer and A. Neumaier, MINQ8 - General Definite and Bound Constrained Indefinite Quadratic Programming, Manuscript (2017). http://arnold-neumaier.at/software/minq/
 
-For the global optimization of indefinite quadratic programs, one may try to use MINQ repeatedly with multiple random starting points. Alternatively, try [not developed by us] SCIP (free for academics) or Gurobi (commercial).
+For the global optimization of indefinite quadratic programs, one may try to use MINQ repeatedly with multiple random starting points. Alternatively, try (*not developed by the minq team*) SCIP (free for academics) or Gurobi (commercial).
 
 Contact the lead author Arnold Neumaier at (Arnold.Neumaier@univie.ac.at) or via (http://arnold-neumaier.at)
