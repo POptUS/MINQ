@@ -49,7 +49,14 @@ W. Huyer and A. Neumaier, MINQ8 - General Definite and Bound Constrained Indefin
 
 For the global optimization of indefinite quadratic programs, one may try to use MINQ repeatedly with multiple random starting points. Alternatively, try (*not developed by the minq team*) SCIP (free for academics) or Gurobi (commercial).
 
-Contact the lead author Arnold Neumaier at (Arnold.Neumaier@univie.ac.at) or via (http://arnold-neumaier.at)
-
 ## License 
 All versions of MINQ are licensed and open source, with the particular form of license for each version contained in the top-level subdirectories of [m/](/m/) and [py/](/py/).  If such a subdirectory does not contain a LICENSE file, then it is automatically licensed as described in the otherwise encompassing POPTUS [LICENSE](/LICENSE).  
+
+
+## Resources
+Contact the lead author Arnold Neumaier at (Arnold.Neumaier@univie.ac.at) or via (http://arnold-neumaier.at).
+
+To seek support or report issues with this repository, e-mail:
+
+ * ``poptus@mcs.anl.gov``
+ 
