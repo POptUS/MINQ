@@ -29,16 +29,16 @@ As an application, a robust least squares solver RLS is included. RLS solves a l
 
 If r has the default value, RLS it can be used to regularize least squares problems. In ill-conditioned cases, it yields much better approximate solutions than x=A\b, though at a time penalty.
 
-All versions of MINQ are [licenced](LICENSE). 
-
-The primary reference for the original source is: http://arnold-neumaier.at/software/minq/
-
-The theory behind MINQ8 is described in [this paper](https://arnold-neumaier.at/software/minq/minq8/minq8.pdf).
-
-The current version is minq8 
+## Versions
+The current version is minq8. 
 The required m-files for minq8 can be downloaded:
 - as the gzipped tar file [minq8.tar.gz (for Matlab 8; 255K)](https://arnold-neumaier.at/software/minq/minq8.tar.gz).
 - in this repository from the [minq8](https://github.com/POptUS/MINQ/tree/main/minq8) directory. 
+
+## References
+The primary reference for the original source is: http://arnold-neumaier.at/software/minq/
+
+The theory behind MINQ8 is described in [this paper](https://arnold-neumaier.at/software/minq/minq8/minq8.pdf).
 
 If you want to reference MINQ, you may use the following format:
 
@@ -47,3 +47,6 @@ W. Huyer and A. Neumaier, MINQ8 - General Definite and Bound Constrained Indefin
 For the global optimization of indefinite quadratic programs, one may try to use MINQ repeatedly with multiple random starting points. Alternatively, try (*not developed by the minq team*) SCIP (free for academics) or Gurobi (commercial).
 
 Contact the lead author Arnold Neumaier at (Arnold.Neumaier@univie.ac.at) or via (http://arnold-neumaier.at)
+
+## License 
+All versions of MINQ are licensed and open source, with the particular form of license for each version contained in the top-level subdirectories of [m/](/m/) and [py/](/py/).  If such a subdirectory does not contain a LICENSE file, then it is automatically licensed as described in the otherwise encompassing POPTUS [LICENSE](/LICENSE).  
