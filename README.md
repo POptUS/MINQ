@@ -31,9 +31,12 @@ If r has the default value, RLS it can be used to regularize least squares probl
 
 ## Versions
 The current version is minq8. 
-The required m-files for minq8 can be downloaded:
-- as the gzipped tar file [minq8.tar.gz (for Matlab 8; 255K)](https://arnold-neumaier.at/software/minq/minq8.tar.gz).
-- in this repository from the [minq8](https://github.com/POptUS/MINQ/tree/main/minq8) directory. 
+- The m-file version of `minq8` is available:
+  - as the gzipped tar file [minq8.tar.gz (for Matlab 8; 255K)](https://arnold-neumaier.at/software/minq/minq8.tar.gz).
+  - in this repository from the [m/minq8](https://github.com/POptUS/MINQ/tree/main/m/minq8) directory. 
+- The m-file version of `minq5` is available:
+  - as the gzipped tar file [minq5.tar.gz (for Matlab 5; 48K)](https://arnold-neumaier.at/software/minq/minq5.tar.gz).
+  - in this repository from the [m/minq5](https://github.com/POptUS/MINQ/tree/main/m/minq5) directory. 
 
 ## References
 The primary reference for the original source is: http://arnold-neumaier.at/software/minq/
