@@ -429,7 +429,7 @@ def minqsw(gam, c, G, xu, xo, prt, xx=None):
                         qg = gTp / agTp
 
                         ipdb.set_trace()
-                        qG = pTGp / (np.linalg.norm(p, 1)**2 * np.linalg.norm(G[:], inf))
+                        qG = pTGp / (np.linalg.norm(p, 1) ** 2 * np.linalg.norm(G[:], inf))
                         lam = eig(G)
                         lam1 = min(lam) / max(abs(lam))
                         print("minq: function unbounded below")

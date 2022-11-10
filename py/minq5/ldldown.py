@@ -36,7 +36,7 @@ def ldldown(L, d, j):
         L = np.vstack((L[I, :], np.zeros((1, n)), np.hstack((L[np.ix_(K, I)], np.zeros((n - j - 1, 1)), LKK))))
         L[j, j] = 1
     else:
-        L[n, 1:n - 1] = sparse.csr_matrix((1, n - 1))
+        L[n, 1 : n - 1] = sparse.csr_matrix((1, n - 1))
 
     d[j] = 1
 

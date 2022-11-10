@@ -42,12 +42,12 @@ def ldlrk1(L, d, alp, u):
 
     # update
     for k in np.where(u != 0)[0]:
-        del_ = d[k] + alp * u[k]**2
+        del_ = d[k] + alp * u[k] ** 2
         if alp < 0 and del_ <= neps:
             # update not definite
             p = np.zeros((n, 1))
             p[k] = 1
-            p[:k + 1] = np.linalg.solve(L[:k + 1, :k + 1].T, p[:k + 1])
+            p[: k + 1] = np.linalg.solve(L[: k + 1, : k + 1].T, p[: k + 1])
             # restore original factorization
             L = L0
             d = d0

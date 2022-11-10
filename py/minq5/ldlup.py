@@ -81,7 +81,7 @@ def ldlup(L, d, j, g):
             print("leave ldlup at 4")
     else:
         # work around expensive sparse L(K,K)=LKK
-        L = np.vstack((L[:j + 1, :], np.hstack((LKI, L[np.ix_(K, [j])], LKK))))
+        L = np.vstack((L[: j + 1, :], np.hstack((LKI, L[np.ix_(K, [j])], LKK))))
         pi = w.T @ q
         p = np.vstack((np.linalg.solve(LII.T, (pi * v - LKI.T @ q)), -pi, q))
         if test:
