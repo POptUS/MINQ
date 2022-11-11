@@ -5,7 +5,7 @@ MINQ5 bound constrained quadratic optimization
 MINQ minimizes an affine quadratic form subject to simple bounds,
 using coordinate searches and reduced subspace minimizations
 ```
-   min    fct = gamma + c^T x + 0.5 x^T G x 
+   min    fct = gamma + c^T x + 0.5 x^T G x
    s.t.   x in [xu,xo]    % xu<=xo is assumed
 ```
 where G is a symmetric n x n matrix, not necessarily definite

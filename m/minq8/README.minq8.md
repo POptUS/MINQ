@@ -29,7 +29,7 @@ Test functions from the CUTEr test set:
 - `tointqor.m`
 - `tridia.m`
 
-`runminq8.m`      interface to use MINQ8 
+`runminq8.m`      interface to use MINQ8
                 generates new data and solves the problem, loads from
                 data file or takes one of the above CUTEr functions
 
