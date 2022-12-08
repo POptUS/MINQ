@@ -76,11 +76,11 @@ def minqsw(gam, c, G, xu, xo, prt, xx=None):
         print("minq: lower bound has wrong dimension")
     if xo.shape[0] != n or xo.shape[1] != 1:
         ier = -1
-        print("minq: lower bound has wrong dimension")
+        print("minq: upper bound has wrong dimension")
     if xx is not None:
         if xx.shape[0] != n or xx.shape[1] != 1:
             ier = -1
-            print("minq: lower bound has wrong dimension")
+            print("minq: starting point has wrong dimension")
     if ier == -1:
         x = NaN + zeros(n)
         fct = NaN
