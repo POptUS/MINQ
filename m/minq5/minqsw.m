@@ -56,11 +56,11 @@ if size(xu,1)~=n || size(xu,2)~=1,
 ier=-1;disp('minq: lower bound has wrong dimension');
 end;
 if size(xo,1)~=n || size(xo,2)~=1, 
-ier=-1;disp('minq: lower bound has wrong dimension');
+ier=-1;disp('minq: upper bound has wrong dimension');
 end;
 if exist('xx')==1,
 if size(xx,1)~=n || size(xx,2)~=1, 
-  ier=-1;disp('minq: lower bound has wrong dimension');
+  ier=-1;disp('minq: starting point has wrong dimension');
 end;
 end;
 if ier==-1,
