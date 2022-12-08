@@ -42,35 +42,30 @@ function [x,fct,ier,nsub]=minqsw(gam,c,G,xu,xo,prt,xx);
 convex=0;
 n=size(G,1);
 
-if prt>0, 
-  % show printlevel
-  printlevel=prt
-
-  % check input data for consistency
-  ier=0;
-  if size(G,2)~=n, 
-    ier=-1;disp('minq: Hessian has wrong dimension');
-    x=NaN+zeros(n,1);fct=NaN;nsub=-1;
-    return;
-  end;
-  if size(c,1)~=n || size(c,2)~=1, 
-    ier=-1;disp('minq: linear term has wrong dimension');
-  end;
-  if size(xu,1)~=n || size(xu,2)~=1, 
-    ier=-1;disp('minq: lower bound has wrong dimension');
-  end;
-  if size(xo,1)~=n || size(xo,2)~=1, 
-    ier=-1;disp('minq: lower bound has wrong dimension');
-  end;
-  if exist('xx')==1,
-    if size(xx,1)~=n || size(xx,2)~=1, 
-      ier=-1;disp('minq: lower bound has wrong dimension');
-    end;
-  end;
-  if ier==-1,
-    x=NaN+zeros(n,1);fct=NaN;nsub=-1;
-    return;
-  end;
+% check input data for consistency
+ier=0;
+if size(G,2)~=n, 
+ier=-1;disp('minq: Hessian has wrong dimension');
+x=NaN+zeros(n,1);fct=NaN;nsub=-1;
+return;
+end;
+if size(c,1)~=n || size(c,2)~=1, 
+ier=-1;disp('minq: linear term has wrong dimension');
+end;
+if size(xu,1)~=n || size(xu,2)~=1, 
+ier=-1;disp('minq: lower bound has wrong dimension');
+end;
+if size(xo,1)~=n || size(xo,2)~=1, 
+ier=-1;disp('minq: lower bound has wrong dimension');
+end;
+if exist('xx')==1,
+if size(xx,1)~=n || size(xx,2)~=1, 
+  ier=-1;disp('minq: lower bound has wrong dimension');
+end;
+end;
+if ier==-1,
+x=NaN+zeros(n,1);fct=NaN;nsub=-1;
+return;
 end;
 
 maxit=3*n;       	% maximal number of iterations
