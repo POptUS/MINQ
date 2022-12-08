@@ -8,9 +8,6 @@ from ldlup import ldlup
 
 
 def minqsw(gam, c, G, xu, xo, prt, xx=None):
-    mdic = {'gam': gam, 'c':   c, 'G':   G, 'xu':  xu, 'xo':  xo, 'prt': prt, 'xx': xx}
-    sp.io.savemat("matlab_matrix.mat", mdic)
-
     """
     % function [x,fct,ier,nsub]=minq(gam,c,G,xu,xo,prt,xx)
     % minimizes an affine quadratic form subject to simple bounds,
