@@ -57,36 +57,35 @@ def minqsw(gam, c, G, xu, xo, prt, xx=None):
     if np.ndim(c) == 1:
         c = np.atleast_2d(c).T
 
-    if prt > 0:
-        np.set_printoptions(precision=16, linewidth=150)
-        # check input data for consistency
-        ier = 0
-        if G.shape[1] != n:
-            ier = -1
-            print("minq: Hessian has wrong dimension")
-            x = NaN + np.zeros(n)
-            fct = NaN
-            nsub = -1
-            return x, fct, ier, nsub
+    np.set_printoptions(precision=16, linewidth=150)
+    # check input data for consistency
+    ier = 0
+    if G.shape[1] != n:
+        ier = -1
+        print("minq: Hessian has wrong dimension")
+        x = NaN + np.zeros(n)
+        fct = NaN
+        nsub = -1
+        return x, fct, ier, nsub
 
-        if c.shape[0] != n or c.shape[1] != 1:
-            ier = -1
-            print("minq: linear term has wrong dimension")
-        if xu.shape[0] != n or xu.shape[1] != 1:
+    if c.shape[0] != n or c.shape[1] != 1:
+        ier = -1
+        print("minq: linear term has wrong dimension")
+    if xu.shape[0] != n or xu.shape[1] != 1:
+        ier = -1
+        print("minq: lower bound has wrong dimension")
+    if xo.shape[0] != n or xo.shape[1] != 1:
+        ier = -1
+        print("minq: lower bound has wrong dimension")
+    if xx is not None:
+        if xx.shape[0] != n or xx.shape[1] != 1:
             ier = -1
             print("minq: lower bound has wrong dimension")
-        if xo.shape[0] != n or xo.shape[1] != 1:
-            ier = -1
-            print("minq: lower bound has wrong dimension")
-        if xx is not None:
-            if xx.shape[0] != n or xx.shape[1] != 1:
-                ier = -1
-                print("minq: lower bound has wrong dimension")
-        if ier == -1:
-            x = NaN + zeros(n)
-            fct = NaN
-            nsub = -1
-            return x, fct, ier, nsub
+    if ier == -1:
+        x = NaN + zeros(n)
+        fct = NaN
+        nsub = -1
+        return x, fct, ier, nsub
 
     maxit = 3 * n  # maximal number of iterations
     maxit = 5 * n  # maximal number of iterations % Changed by SW
