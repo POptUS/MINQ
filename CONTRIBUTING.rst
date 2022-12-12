@@ -18,9 +18,11 @@ Contribution Process
 --------------------
 
 Contributors should typically branch from, and
-make pull requests to, the ``main`` branch. The ``main`` branch is used only
-for releases. Pull requests may be made from a fork, for those without
-repository write access.
+make pull requests to, the ``main`` branch. (The ``main`` branch is used only
+for releases.)
+Email ``poptus@mcs.anl.gov`` or open an issue to request the write/branching
+permissions. Alternatively, pull requests may be made from a fork, for those
+without repository write access.
 
 Issues can be raised at
 
