@@ -63,11 +63,9 @@ def minqsw(gam, c, G, xu, xo, prt, xx=None):
     if G.shape[1] != n:
         ier = -1
         print("minq: Hessian has wrong dimension")
-        x = NaN + np.zeros(n)
-        fct = NaN
-        nsub = -1
-        return x, fct, ier, nsub
-
+    if not np.allclose(G, G.T, rtol=1e-12, atol=1e-12):
+        ier = -1
+        print("minq: Hessian is not symmetric")
     if c.shape[0] != n or c.shape[1] != 1:
         ier = -1
         print("minq: linear term has wrong dimension")
@@ -82,8 +80,8 @@ def minqsw(gam, c, G, xu, xo, prt, xx=None):
             ier = -1
             print("minq: starting point has wrong dimension")
     if ier == -1:
-        x = NaN + zeros(n)
-        fct = NaN
+        x = np.NaN + np.zeros(n)
+        fct = np.NaN
         nsub = -1
         return x, fct, ier, nsub
 
