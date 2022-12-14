@@ -58,6 +58,8 @@ All versions of MINQ are licensed and open source, with the particular form of l
 ## Resources
 Contact the lead author Arnold Neumaier at (Arnold.Neumaier@univie.ac.at) or via (http://arnold-neumaier.at).
 
+Contributions to this repository are welcome, please take a look at [CONTRIBUTING](/CONTRIBUTING.rst).
+
 To seek support or report issues with this repository, e-mail:
 
  * ``poptus@mcs.anl.gov``
