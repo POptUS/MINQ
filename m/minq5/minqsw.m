@@ -47,7 +47,7 @@ ier=0;
 if size(G,2)~=n, 
 ier=-1;disp('minq: Hessian has wrong dimension');
 end;
-if all(all(abs(G - G') <= 1e-12))  
+if ~all(all(abs(G - G') <= 1e-12))  
 ier=-1;disp('minq: Hessian is not symmetric');
 end
 if size(c,1)~=n || size(c,2)~=1, 
