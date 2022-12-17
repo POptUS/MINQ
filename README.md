@@ -43,13 +43,15 @@ The current version is minq8.
 ## References
 The primary reference for the original source is: http://arnold-neumaier.at/software/minq/
 
-The theory behind MINQ8 is described in [this paper](https://arnold-neumaier.at/software/minq/minq8/minq8.pdf).
+The theory behind MINQ8 is described in [this paper](http://arnold-neumaier.at/ms/minq8.pdf).
 
-If you want to reference MINQ, you may use the following format:
+To reference MINQ, please cite [doi:10.1007/s10589-017-9949-y](https://doi.org/10.1007/s10589-017-9949-y):
 
-W. Huyer and A. Neumaier, MINQ8 - General Definite and Bound Constrained Indefinite Quadratic Programming, Manuscript (2017). http://arnold-neumaier.at/software/minq/
+    W. Huyer and A. Neumaier, 
+    MINQ8 - General Definite and Bound Constrained Indefinite Quadratic Programming, 
+    Computational Optimization and Applications 69 (2018), 351--381.
 
-For the global optimization of indefinite quadratic programs, one may try to use MINQ repeatedly with multiple random starting points. Alternatively, try (*not developed by the minq team*) SCIP (free for academics) or Gurobi (commercial).
+For the global optimization of indefinite quadratic programs, one may try to use MINQ repeatedly with multiple random starting points. Alternatively, try (*not developed by the minq team*) [SCIP](http://scip.zib.de/) (free for academics) or [Gurobi](http://www.gurobi.com/) (commercial).
 
 ## License
 All versions of MINQ are licensed and open source, with the particular form of license for each version contained in the top-level subdirectories of [m/](/m/) and [py/](/py/).  If such a subdirectory does not contain a LICENSE file, then it is automatically licensed as described in the otherwise encompassing POPTUS [LICENSE](/LICENSE).
