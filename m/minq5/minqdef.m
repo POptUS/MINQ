@@ -36,40 +36,45 @@ GG = A0 * A0';
 c0 = R' \ c;
 cc = -b - A0 * c0;
 yo = inf + zeros(m, 1);
-yu = zeros(m, 1); yu(eq) = -yo(eq);
+yu = zeros(m, 1);
+yu(eq) = -yo(eq);
 
 [y, fct, ier] = minq(0, cc, GG, yu, yo, prt);
 x = R \ (A0' * y - c0);
-if ier == 99; return; end
+if ier == 99
+    return
+end
 
 % check for accuracy
-res = A * x - b; ressmall = nnz(A) * eps * (abs(A) * abs(x) + abs(b));
+res = A * x - b;
+ressmall = nnz(A) * eps * (abs(A) * abs(x) + abs(b));
 res(~eq) = min(res(~eq), 0);
-if prt,
-  disp('residual (first row) small if comparable to second row');
-  disp([res, ressmall]');
+if prt
+    disp('residual (first row) small if comparable to second row');
+    disp([res, ressmall]');
 end
-if min(abs(res) <= ressmall),
-  % accuracy satisfactory
-  ier = 0;
-  return
+if min(abs(res) <= ressmall)
+    % accuracy satisfactory
+    ier = 0;
+    return
 end
 
 % one step of iterative refinement
-if prt,
-  disp('one step of iterative refinement');
+if prt
+    disp('one step of iterative refinement');
 end
 [dy, fct, ier] = minq(0, -res, GG, yu - y, yo - y, prt);
 x = x + R \ (A0' * dy);
 y = y + dy;
 
 % check for accuracy
-res = A * x - b; ressmall = nnz(A) * eps * (abs(A) * abs(x) + abs(b));
+res = A * x - b;
+ressmall = nnz(A) * eps * (abs(A) * abs(x) + abs(b));
 res(~eq) = min(res(~eq), 0);
-if min(abs(res) <= sqrt(nnz(A)) * ressmall),
-  % accuracy satisfactory
-  ier = 0;
+if min(abs(res) <= sqrt(nnz(A)) * ressmall)
+    % accuracy satisfactory
+    ier = 0;
 else
-  % feasible set probably empty
-  ier = 1;
+    % feasible set probably empty
+    ier = 1;
 end
