@@ -36,7 +36,7 @@ def ldlup(L, d, j, g):
         v = np.zeros((0, 1))
         del_ = g[j]
         if del_ <= n * eps:
-            p = np.eye(n)[:, 0]
+            p = np.eye(n)[:, [0]]
             if test:
                 print(A, p)
                 Nenner = abs(p).T @ abs(A) @ abs(p)
@@ -44,7 +44,7 @@ def ldlup(L, d, j, g):
                     indef1 = 0
                 else:
                     indef1 = (p.T @ A @ p) / Nenner
-                disp("leave ldlup at 1")
+                print("leave ldlup at 1")
             return L, d, p
         w = g[K] / del_
         L[j, I] = v.T

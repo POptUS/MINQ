@@ -182,7 +182,8 @@ def minqsw(gam, c, G, xu, xo, prt, xx=None):
                 print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
             else:
                 # Changed by SW
-                print("iteration limit exceeded")
+                if prt:
+                    print("iteration limit exceeded")
             ier = 99
             break
 
