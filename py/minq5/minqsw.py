@@ -1,10 +1,11 @@
+import ipdb  # Only used when prt is > 2
 import numpy as np
 import scipy as sp
-import ipdb  # Only used when prt is > 2
+import sys
 from getalp import getalp
-from pr01 import pr01
 from ldldown import ldldown
 from ldlup import ldlup
+from pr01 import pr01
 
 
 def minqsw(gam, c, G, xu, xo, prt, xx=None):
@@ -95,7 +96,7 @@ def minqsw(gam, c, G, xu, xo, prt, xx=None):
 
     if xx is None:
         # cold start with absolutely smallest feasible point
-        xx = zeros(n)
+        xx = np.zeros(n)
 
     # force starting point into the box
     xx = np.maximum(xu, np.minimum(xx, xo))
@@ -131,7 +132,7 @@ def minqsw(gam, c, G, xu, xo, prt, xx=None):
             print("enter main loop")
 
         if np.linalg.norm(xx, np.inf) == np.inf:
-            error("infinite xx in minq.m")
+            sys.exit("infinite xx in minq.m")
 
         g = G * xx + c
         fctnew = gam + 0.5 * xx.T @ (c + g)
@@ -218,7 +219,9 @@ def minqsw(gam, c, G, xu, xo, prt, xx=None):
                     x[k] = 1
 
                 if prt:
-                    gTp = g[k], pTGp = q[k], quot = pTGp / np.linalg.norm(G[:], np.inf)
+                    gTp = g[k]
+                    pTGp = q[k]
+                    quot = pTGp / np.linalg.norm(G[:], np.inf)
                     print("minq: function unbounded below in coordinate direction")
                     print("      unbounded direction returned")
                     print("      possibly caused by roundoff")
@@ -227,7 +230,7 @@ def minqsw(gam, c, G, xu, xo, prt, xx=None):
                     print("f(alp*x)=gam+gam1*alp+gam2*alp^2/2, where")
                     gam1 = c.T @ x
                     gam2 = x.T @ (G @ x)
-                    ddd = diag(G)
+                    ddd = np.diag(G)
                     min_diag_G = min(ddd)
                     max_diag_G = max(ddd)
 
@@ -427,8 +430,8 @@ def minqsw(gam, c, G, xu, xo, prt, xx=None):
                         qg = gTp / agTp
 
                         ipdb.set_trace()
-                        qG = pTGp / (np.linalg.norm(p, 1) ** 2 * np.linalg.norm(G[:], inf))
-                        lam = eig(G)
+                        qG = pTGp / (np.linalg.norm(p, 1) ** 2 * np.linalg.norm(G[:], np.inf))
+                        lam = np.linalg.eigvals(G)
                         lam1 = min(lam) / max(abs(lam))
                         print("minq: function unbounded below")
                         print("  unbounded subspace direction returned")
@@ -467,7 +470,7 @@ def minqsw(gam, c, G, xu, xo, prt, xx=None):
 
                         if abs(xx[ik]) == np.inf:
                             print(ik, alp, p[ik])
-                            error("infinite xx in minq.m")
+                            sys.exit("infinite xx in minq.m")
 
                     nfree = sum(free)
                     subdone = 1
