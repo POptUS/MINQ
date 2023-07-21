@@ -1,6 +1,6 @@
 import numpy as np
-from scipy import sparse
 from ldlrk1 import ldlrk1
+from scipy import sparse
 
 
 def ldldown(L, d, j):
