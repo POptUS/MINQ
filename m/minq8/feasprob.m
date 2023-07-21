@@ -21,6 +21,6 @@ if newdata
 else
   load minqfeas1
 end
-time=cputime; 
+time=cputime;
 [x,y,nstep,ier,acc] = minq8sep(zeros(n,1),ones(n,1),A,b,logical(zeros(m,1)),maxit);time=cputime-time
 nstep,normx=norm(x),f=0.5*norm(x)^2,acc,ind=find(abs(A*x-b)<1.e-8);length(ind)

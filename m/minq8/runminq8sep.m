@@ -2,7 +2,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%% runminq8sep.m %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % generates a separable quadratic program as described in Section 5.3
-% (test set), stores the input data and solves it by solving the dual 
+% (test set), stores the input data and solves it by solving the dual
 % program with MINQ8 or solve such a problem by loading it from a .mat
 % file
 %
@@ -39,4 +39,3 @@ maxit = 10000; % limit on number of interations
 prt = 0; % printing
 time=cputime;[x,y,nit,ier,acc,itref] = minq8sep(c,d,A,b,eq,maxit,prt);time=cputime-time,ier,itref
 nit,acc,dx=norm(x-xdes,inf),f=c'*x+0.5*sum(d.*x.^2)
-

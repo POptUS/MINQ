@@ -27,7 +27,7 @@
 % ier      error flag
 %          = 0 regular completion
 %          = 1 function is unbounded below
-% 
+%
 % Calls the following subprograms (directly or indirectly):
 % minq8fun.m
 % qls.m

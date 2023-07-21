@@ -4,7 +4,7 @@
 % function [i,j,C] = submatrix(A)
 % determines index sets i and j such that A(i,j) is nonsingular and
 % computes the inverse C of A(i,j)
-% 
+%
 % Input:
 % A  m times n matrix
 % Output:
@@ -13,7 +13,7 @@
 %
 function [i,j,C] = submatrix(A)
 sparpar = issparse(A); % determine whether the matrix is sparse
-delta = 1.e-12; % diagonal elements 
+delta = 1.e-12; % diagonal elements
 if sparpar
   [L,U,p,q]=lu(A','vector');
 else
@@ -47,4 +47,4 @@ else
     i = q(q1);
     j = p(p1(1:r));
   end
-end 
+end

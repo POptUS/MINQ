@@ -2,10 +2,10 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%% redinact.m %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % function [i,al,au] = redinact(x,g,d,xl,xu,inact)
-% computes the reduced inactive and extended active sets of a point 
-% 
+% computes the reduced inactive and extended active sets of a point
+%
 % Input:
-% x       point for which these sets are to be computed  
+% x       point for which these sets are to be computed
 % g       corresponding gradient
 % d       vector of length n, = 0.5*diag(G), G Hessian
 % xl, xu  box bounds (vectors of length n, infinite entries allowed)

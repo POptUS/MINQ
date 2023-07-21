@@ -2,7 +2,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%% harkerp2.m %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Matlab script defining the data structure data containing the function
-% parameters, the default box bounds xl and xu and the default starting 
+% parameters, the default box bounds xl and xu and the default starting
 % point x for the CUTEr test set function HARKERP2
 %
 n = 1000;

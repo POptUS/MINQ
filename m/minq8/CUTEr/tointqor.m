@@ -2,7 +2,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%% tointqor.m %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Matlab script defining the data structure data containing the function
-% parameters, the default box bounds xl and xu and the default starting 
+% parameters, the default box bounds xl and xu and the default starting
 % point x for the CUTEr test set function TOINTQOR
 %
 n = 50;
@@ -48,8 +48,8 @@ B(18,32) = 1;
 B(18,[33 34]) = -1;
 B(19,[3 33]) = 1;
 B(19,35) = -1;
-B(20,35) = 1; 
-B(20,[21 36]) = -1; 
+B(20,35) = 1;
+B(20,[21 36]) = -1;
 B(21,36) = 1;
 B(21,[37 38]) = -1;
 B(22,[30 37]) = 1;
@@ -66,8 +66,8 @@ B(27,46) = 1;
 B(27,48) = -1;
 B(28,[42 45 48 50]) = 1;
 B(28,49) = -1;
-B(29,[26 34 43]) = 1; 
-B(30,[15 17 24 47]) = 1; 
+B(29,[26 34 43]) = 1;
+B(30,[15 17 24 47]) = 1;
 B(31,49) = 1;
 B(32,22) = 1;
 B(33,27) = 1;

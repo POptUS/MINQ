@@ -2,13 +2,13 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%% minq8sep.m %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % function [x,y,nit,ier,acc,itref] = minq8sep(c,d,A,b,eq,maxit,prt)
-% solves the problem min c'*x+0.5*x'*diag(d)*x s.t. A*x>= b, 
-% (A*x)(eq)=b(eq) by solving the dual problem with MINQ8 and making one 
-% step of iterative refinement if 
-% abs(r)<=nnz(A)*eps*(abs(A)*abs(x)+abs(b)) (with componentwise 
-% inequalities) is violated, where r is the vector of violations of the 
+% solves the problem min c'*x+0.5*x'*diag(d)*x s.t. A*x>= b,
+% (A*x)(eq)=b(eq) by solving the dual problem with MINQ8 and making one
+% step of iterative refinement if
+% abs(r)<=nnz(A)*eps*(abs(A)*abs(x)+abs(b)) (with componentwise
+% inequalities) is violated, where r is the vector of violations of the
 % constraints
-% 
+%
 % Input:
 % c      vector of length n
 % d      vector of length n with positive entries
@@ -86,9 +86,3 @@ else
   % feasible set probably empty
   ier=1;
 end;
-
-
-
-
-
-

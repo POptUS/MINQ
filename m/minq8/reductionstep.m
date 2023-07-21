@@ -3,7 +3,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % function [x,f,g,al,au,i,ier] = reductionstep(x,f,xl,xu,data,al,au,i)
 % reduces the number of active variables
-% 
+%
 % Input:
 % x          starting point (vector of length n)
 % f          its function value
@@ -22,11 +22,11 @@
 % x          point with an increased number of activities
 % f          its function value
 % g          its gradient
-% al, au, i  updated vectors of (in)active indices 
+% al, au, i  updated vectors of (in)active indices
 % ier        error flag
 %            = 0 regular completion
 %            = 1 function is unbounded below
-% 
+%
 % Calls the following subprograms:
 % minq8fun.m
 % submatrix.m
@@ -35,7 +35,7 @@ function [x,f,g,al,au,i,ier] = reductionstep(x,f,xl,xu,data,al,au,i)
 m = size(data.A,1);
 ier = 0;
 delta2 = 1.e-12; % safeguard for search directions that leave the
-                 % objective function almost constant  
+                 % objective function almost constant
 [j1,q,C] = submatrix(data.A(:,i));
 i1 = i(q);
 q1 = 1:length(i);
@@ -159,7 +159,7 @@ while ~isempty(i2)
   x(ii) = min(max(x(ii)+alp*u,xl(ii)),xu(ii));
   k1 = find(x(i)==xl(i));
   k2 = find(x(i)==xu(i));
-  k = [k1; k2]; 
+  k = [k1; k2];
   if ~isempty(k)
     if ~isempty(k1)
       al = [al; i(k1)];
@@ -199,4 +199,4 @@ end
 [f,g] = minq8fun(x,data);
 al = sort(al);
 au = sort(au);
-i = sort(i);         
+i = sort(i);

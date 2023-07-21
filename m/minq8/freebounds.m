@@ -3,7 +3,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % function [x,f,g,ier] = freebounds(x,f,g,d,xl,xu,data)
 % line search along a direction that allows for freeing bounds
-% 
+%
 % Input:
 % x        starting point (vector of length n)
 % f        its function value
@@ -26,10 +26,10 @@
 % ier      error flag
 %          = 0 regular completion
 %          = 1 function is unbounded below
-% 
+%
 % Calls the following subprograms:
 % minq8fun.m
-% qls.m 
+% qls.m
 %
 function [x,f,g,ier] = freebounds(x,f,g,d,xl,xu,data)
 ind0 = find(~d&((g>0&isinf(xl))|(g<0&isinf(xu))));
@@ -51,16 +51,16 @@ if ~isempty(ind0)
   x(i) = x(i)+0.1*a;
   [f,g] = minq8fun(x,data);
   return
-end  
+end
 alpl = xl-x;
 alpu = xu-x;
 p = zeros(size(x));
 ind0 = find(~d);
 for j=1:length(ind0)
   i = ind0(j);
-  if g(i) > 0 
+  if g(i) > 0
     p(i) = alpl(i);
-  elseif g(i) < 0 
+  elseif g(i) < 0
     p(i) = alpu(i);
   end
 end

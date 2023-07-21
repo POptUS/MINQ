@@ -20,7 +20,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%% fixbounds.m %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % function [x,f,g,ier] = fixbounds(x,f,g,d,xl,xu,data,ind)
-% tries to fix as many coordinates as possible at bounds to achieve a 
+% tries to fix as many coordinates as possible at bounds to achieve a
 % decrease in function value
 %
 % Input:
@@ -45,7 +45,7 @@
 % ier      error flag
 %          = 0 regular completion
 %          = 1 function is unbounded below
-% 
+%
 % Calls the following subprogram:
 % minq8fun.m
 %
@@ -55,7 +55,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % function [x,f,g,ier] = freebounds(x,f,g,d,xl,xu,data)
 % line search along a direction that allows for freeing bounds
-% 
+%
 % Input:
 % x        starting point (vector of length n)
 % f        its function value
@@ -78,10 +78,10 @@
 % ier      error flag
 %          = 0 regular completion
 %          = 1 function is unbounded below
-% 
+%
 % Calls the following subprograms:
 % minq8fun.m
-% qls.m 
+% qls.m
 %
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -92,12 +92,12 @@
 % be minimized in minq8
 %
 % Input:
-% x         vector of length n where the function is to be evaluated 
+% x         vector of length n where the function is to be evaluated
 % data      data structure containing the function parameters:
 % data.gam  gam in the function below (scalar)
 % data.A    matrix A above (of size m times n)
 % data.b    vector of length m (b in the above formula)
-% data.D    vector of length m (D=diag(data.D) in the above formula) 
+% data.D    vector of length m (D=diag(data.D) in the above formula)
 %
 % Output:
 % f     function value (scalar)
@@ -111,7 +111,7 @@
 % minimization of f(x)=gam+c'*x+0.5*(A*x-b)'*diag(D)*(A*x-b) on the box
 % [xu,xl], where gam, c, A, b and D are contained in the data structure
 % data
-% 
+%
 % Input:
 % data     data structure containing:
 % data.gam scalar
@@ -120,7 +120,7 @@
 % data.b   vector of length m
 % data.D   vector of length m
 % xl, xu   box bounds (vectors of length n, infinite entries allowed)
-% x        starting point (default: absolutely smallest point in the 
+% x        starting point (default: absolutely smallest point in the
 %          box)
 % maxit    limit on the number of iterations (default: n)
 % tol      the algorithm stops if (fold-f)/max([abs(fold) abs(f) delta3])
@@ -155,7 +155,7 @@
 % minimization of f(x)=gam+c'*x+0.5*(A*x-b)'*diag(D)*(A*x-b) on the box
 % [xu,xl], where gam, c, A, b and D are contained in the data structure
 % data
-% 
+%
 % Input:
 % data     data structure containing:
 % data.gam scalar
@@ -164,7 +164,7 @@
 % data.b   vector of length m
 % data.D   vector of length m
 % xl, xu   box bounds (vectors of length n, infinite entries allowed)
-% x        starting point (default: absolutely smallest point in the 
+% x        starting point (default: absolutely smallest point in the
 %          box)
 % maxit    limit on the number of iterations (default: n)
 % tol      the algorithm stops if (fold-f)/max([abs(fold) abs(f) delta3])
@@ -196,11 +196,11 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % function [x,f,g,ier] = qls(x,f,g,p,xl,xu,data)
 % quadratic line search
-% minimizes the quadratic function 
+% minimizes the quadratic function
 % q(y)=gam+c'*y+0.5*(A*y-b)'*D*(A*y-b)
 % for y=x+alp*p in [xl,xu]
 %
-% Input: 
+% Input:
 % x        starting point
 % f        its function value
 % g        its gradient
@@ -220,19 +220,19 @@
 % ier      error flag
 %          = 0 regular completion
 %          = 1 function is unbounded below
-% 
+%
 % Calls the following subprogram:
 % minq8fun.m
-% 
+%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%% redinact.m %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % function [i,al,au] = redinact(x,g,d,xl,xu,inact)
-% computes the reduced inactive and extended active sets of a point 
-% 
+% computes the reduced inactive and extended active sets of a point
+%
 % Input:
-% x       point for which these sets are to be computed  
+% x       point for which these sets are to be computed
 % g       corresponding gradient
 % d       vector of length n, = 0.5*diag(G), G Hessian
 % xl, xu  box bounds (vectors of length n, infinite entries allowed)
@@ -249,7 +249,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % function [x,f,g,al,au,i,ier] = reductionstep(x,f,xl,xu,data,al,au,i)
 % reduces the number of active variables
-% 
+%
 % Input:
 % x          starting point (vector of length n)
 % f          its function value
@@ -268,11 +268,11 @@
 % x          point with an increased number of activities
 % f          its function value
 % g          its gradient
-% al, au, i  updated vectors of (in)active indices 
+% al, au, i  updated vectors of (in)active indices
 % ier        error flag
 %            = 0 regular completion
 %            = 1 function is unbounded below
-% 
+%
 % Calls the following subprograms:
 % minq8fun.m
 % submatrix.m
@@ -291,7 +291,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%% runminq8sep.m %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % generates a separable quadratic program as described in Section 5.3
-% (test set), stores the input data and solves it by solving the dual 
+% (test set), stores the input data and solves it by solving the dual
 % program with MINQ8 or solve such a problem by loading it from a .mat
 % file
 %
@@ -304,7 +304,7 @@
 % function [i,j,C] = submatrix(A)
 % determines index sets i and j such that A(i,j) is nonsingular and
 % computes the inverse C of A(i,j)
-% 
+%
 % Input:
 % A  m times n matrix
 % Output:
@@ -341,12 +341,8 @@
 % ier      error flag
 %          = 0 regular completion
 %          = 1 function is unbounded below
-% 
+%
 % Calls the following subprograms (directly or indirectly):
 % minq8fun.m
 % qls.m
 %
-
-
-
-
