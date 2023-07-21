@@ -2,7 +2,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%% fixbounds.m %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % function [x,f,g,ier] = fixbounds(x,f,g,d,xl,xu,data,ind)
-% tries to fix as many coordinates as possible at bounds to achieve a 
+% tries to fix as many coordinates as possible at bounds to achieve a
 % decrease in function value
 %
 % Input:
@@ -27,7 +27,7 @@
 % ier      error flag
 %          = 0 regular completion
 %          = 1 function is unbounded below
-% 
+%
 % Calls the following subprogram:
 % minq8fun.m
 %

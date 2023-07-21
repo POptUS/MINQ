@@ -5,7 +5,7 @@
 % minimization of f(x)=gam+c'*x+0.5*(A*x-b)'*diag(D)*(A*x-b) on the box
 % [xu,xl], where gam, c, A, b and D are contained in the data structure
 % data
-% 
+%
 % Input:
 % data     data structure containing:
 % data.gam scalar
@@ -14,7 +14,7 @@
 % data.b   vector of length m
 % data.D   vector of length m
 % xl, xu   box bounds (vectors of length n, infinite entries allowed)
-% x        starting point (default: absolutely smallest point in the 
+% x        starting point (default: absolutely smallest point in the
 %          box)
 % maxit    limit on the number of iterations (default: n)
 % tol      the algorithm stops if (fold-f)/max([abs(fold) abs(f) delta3])
@@ -42,7 +42,7 @@
 % subspacestep.m
 %
 function [x,f,g,nit,ier] = minq8(data,xl,xu,x,maxit,tol,prt)
-delta3 = 1.e-4; % parameter for termination when the function 
+delta3 = 1.e-4; % parameter for termination when the function
                 % value is close to zero
 n = length(xl);
 m = size(data.A,1);
@@ -62,7 +62,7 @@ if nargin < 7
 end
 ier = 0;
 if size(data.D,2)>1, data.D = data.D'; end
-if issparse(data.A) 
+if issparse(data.A)
 % store the Hessian as a sparse matrix if data.A is sparse
   data.G = sparse(data.A'*(repmat(data.D,1,n).*data.A));
 else
@@ -82,13 +82,13 @@ if ~isempty(ind)
     for j1=1:length(i)
       j = i(i1(j1));
       if (g(j) > 0 && isinf(xl(j))) || (g(j)<0 && isinf(xu(j)))
-        i = j; 
+        i = j;
         break
       end
     end
     if length(i) > 1
       i = i(i1(end));
-    end 
+    end
   end
   if g(i) > 0
     a = -1;
@@ -103,7 +103,7 @@ if ~isempty(ind)
   end
   f1 = f;
   x1 = x;
-  while isfinite(f1) && f1 < fold 
+  while isfinite(f1) && f1 < fold
     a = 10*a;
     fold = f1;
     x1(i) = x(i)+a;
@@ -133,8 +133,8 @@ if ~isempty(ind0)
   [f,g] = minq8fun(x,data);
   nit = 0;
   return
-end  
-% check whether the function does not depend on some variables 
+end
+% check whether the function does not depend on some variables
 % and fix them at the absolutely smallest value
 colA = sum(data.A.^2,1)';
 ind0 = find(~colA&~data.c);
@@ -185,7 +185,7 @@ for nit=1:maxit % main loop of the algorithm
   end
   if ier, break, end % function unbounded below
   act = find(x==xl|x==xu);
-  if isequal(act,actold) 
+  if isequal(act,actold)
     if fold == f || (fold-f)/max([abs(fold) abs(f) delta3])<=tol,  break, end
     fold = f;
     [x,f,g,ier] = freebounds(x,f,g,d,xl,xu,data);

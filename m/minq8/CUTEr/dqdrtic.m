@@ -2,7 +2,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%% dqdrtic.m %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Matlab script defining the data structure data containing the function
-% parameters, the default box bounds xl and xu and the default starting 
+% parameters, the default box bounds xl and xu and the default starting
 % point x for the CUTEr test set function DQDRTIC
 n = 5000;
 data.gam = 0;
@@ -13,4 +13,3 @@ data.A = sparse(eye(n));
 xu = Inf*ones(n,1);
 xl = -xu;
 x = 3*ones(n,1);
-

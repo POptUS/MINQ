@@ -45,7 +45,7 @@ elseif choice == 1 % load data from old sparse problem
   [m,n] = size(data.A);
 else % load script for CUTEr test function
   addpath('CUTEr')
-  tridia 
+  tridia
 end
 if choice == 0 || choice == 1 % set box bounds for other functions than CUTEr
   fac = 10; % box bounds [-fac,fac]^n, fac = Inf permitted

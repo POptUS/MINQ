@@ -3,11 +3,11 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % function [x,f,g,ier] = qls(x,f,g,p,xl,xu,data)
 % quadratic line search
-% minimizes the quadratic function 
+% minimizes the quadratic function
 % q(y)=gam+c'*y+0.5*(A*y-b)'*D*(A*y-b)
 % for y=x+alp*p in [xl,xu]
 %
-% Input: 
+% Input:
 % x        starting point
 % f        its function value
 % g        its gradient
@@ -27,10 +27,10 @@
 % ier      error flag
 %          = 0 regular completion
 %          = 1 function is unbounded below
-% 
+%
 % Calls the following subprogram:
 % minq8fun.m
-% 
+%
 function [x,f,g,ier] = qls(x,f,g,p,xl,xu,data)
 ier = 0;
 i1 = find(p>0);
@@ -65,7 +65,7 @@ elseif ~h(2)
         alp = 10*alp;
         fold = f1;
         f1 = minq8fun(x+alp*p,data);
-      end 
+      end
       x = x + 0.1*alp*p;
       [f,g] = minq8fun(x,data);
       return

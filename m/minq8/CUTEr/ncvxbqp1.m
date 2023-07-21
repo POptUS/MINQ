@@ -2,7 +2,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%% ncvxbqp1.m %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Matlab script defining the data structure data containing the function
-% parameters, the default box bounds xl and xu and the default starting 
+% parameters, the default box bounds xl and xu and the default starting
 % point x for the CUTEr test set function NCVXBQP1
 % n should be set to 1000 or 10000
 %
