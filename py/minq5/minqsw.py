@@ -104,7 +104,12 @@ def minqsw(gam, c, G, xu, xo, prt, xx=None):
 
     # regularization for low rank problems
     hpeps = 100 * eps  # perturbation in last two digits
-    G = G + sp.sparse.spdiags(hpeps * np.diag(G), 0, n, n)
+
+    if sp.sparse.issparse(G):
+        G = G + sp.sparse.spdiags(hpeps * G.diagonal(), 0, n, n)
+    else:
+        # Avoids numpy.matrix subclass if G isn't dense.
+        G[np.diag_indices_from(G)] += hpeps * np.diag(G)
 
     # initialize LDL^T factorization of G_KK
     K = np.zeros(n, dtype=bool)  # initially no rows in factorization
