@@ -65,7 +65,7 @@ def minqsw(gam, c, G, xu, xo, prt, xx=None):
     if G.shape[1] != n:
         ier = -1
         print("minq: Hessian has wrong dimension")
-    if not np.allclose(G, G.T, rtol=1e-10, atol=1e-10):
+    if not np.allclose(G, G.T, rtol=1e-12, atol=1e-12):
         ier = -1
         print("minq: Hessian is not symmetric")
     if c.shape[0] != n or c.shape[1] != 1:
