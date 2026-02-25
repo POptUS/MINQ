@@ -39,4 +39,4 @@ its dual program with MINQ8
 `runminq8sep.m`   interface to (generate and) solve a separable quadratic
                 program with minq8sep.m
 `feasprob.m`      interface to (generate and) solve a feasibility problem
-                special case of separable quadratig  progam
+                special case of separable quadratic program
