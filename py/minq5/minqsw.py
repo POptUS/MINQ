@@ -270,6 +270,7 @@ def minqsw(gam, c, G, xu, xo, prt, xx=None):
                     if prt > 1 and not free[k]:
                         print("unfixstep ", x[k], alp)
                     x[k] = xnew
+
                     g = g + alp * q
                     free[k] = 1
         # end of coordinate search
@@ -312,6 +313,7 @@ def minqsw(gam, c, G, xu, xo, prt, xx=None):
             # no free variables - no subspace step taken
             if prt > 0:
                 print("no free variables - no subspace step taken")
+
             unfix = 1
         else:
             ######################
@@ -386,6 +388,7 @@ def minqsw(gam, c, G, xu, xo, prt, xx=None):
                 oo = (xo[ind] - x[ind]) / pp
                 uu = (xu[ind] - x[ind]) / pp
 
+                # alpu = np.max(np.vstack((oo[pp < 0], uu[pp > 0], -np.inf)))
                 alpu = -np.inf
                 if len(oo[pp < 0]):
                     tmp = np.max(oo[pp < 0])
@@ -394,6 +397,7 @@ def minqsw(gam, c, G, xu, xo, prt, xx=None):
                     tmp = np.max(uu[pp > 0])
                     alpu = max(tmp, alpu)
 
+                # alpo = np.min(np.vstack((oo[pp > 0], uu[pp < 0], np.inf)))
                 alpo = np.inf
                 if len(oo[pp > 0]):
                     tmp = np.min(oo[pp > 0])
