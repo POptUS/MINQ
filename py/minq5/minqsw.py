@@ -82,8 +82,8 @@ def minqsw(gam, c, G, xu, xo, prt, xx=None):
             ier = -1
             print("minq: starting point has wrong dimension")
     if ier == -1:
-        x = np.NaN + np.zeros(n)
-        fct = np.NaN
+        x = np.full(n, np.nan, float)
+        fct = np.nan
         nsub = -1
         return x, fct, ier, nsub
 
