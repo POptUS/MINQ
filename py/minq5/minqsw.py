@@ -118,7 +118,7 @@ def minqsw(gam, c, G, xu, xo, prt, xx=None):
         L = np.eye(n)  # initialize LDL^T factorization of G_KK
         G[np.diag_indices_from(G)] += hpeps * np.diag(G)
 
-    K = np.zeros(n, dtype=bool)  # initially no rows in factorization
+    K = np.full(n, False, bool)  # initially no rows in factorization
     dd = np.ones((n, 1))
 
     # dummy initialization of indicator of free variables
