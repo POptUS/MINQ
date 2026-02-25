@@ -2,7 +2,6 @@ import sys
 
 import ipdb  # Only used when prt is > 2
 import numpy as np
-import scipy as sp
 from getalp import getalp
 from ldldown import ldldown
 from ldlup import ldlup
@@ -19,9 +18,6 @@ def minqsw(gam, c, G, xu, xo, prt, xx=None):
     %    s.t.   x in [xu,xo]    % xu<=xo is assumed
     % where G is a symmetric n x n matrix, not necessarily definite
     % (if G is indefinite, only a local minimum is found)
-    %
-    % if G is sparse, it is assumed that the ordering is such that
-    % a sparse modified Cholesky factorization is feasible
     %
     % prt	printlevel
     % xx	initial guess (optional)
@@ -43,7 +39,13 @@ def minqsw(gam, c, G, xu, xo, prt, xx=None):
     % Search for 'SW' to find specific lines
 
     % Translated from Matlab to Python by Jeffrey Larson, 2021
+
+    NOTE (simplified): This version assumes G is a *dense* numpy array.
+    All sparse-handling logic has been removed.
     """
+    # Force dense array early
+    G = np.asarray(G)
+
     c = np.atleast_2d(c).T
     xu = np.atleast_2d(xu).T
     xo = np.atleast_2d(xo).T
@@ -94,7 +96,6 @@ def minqsw(gam, c, G, xu, xo, prt, xx=None):
     nitrefmax = 3  # maximal number of iterative refinement steps
 
     # initialize trial point xx, function value fct and gradient g
-
     if xx is None:
         # cold start with absolutely smallest feasible point
         xx = np.zeros((n, 1))
@@ -109,14 +110,9 @@ def minqsw(gam, c, G, xu, xo, prt, xx=None):
 
     # regularization for low rank problems
     hpeps = 100 * eps  # perturbation in last two digits
+    G[np.diag_indices_from(G)] += hpeps * np.diag(G)
 
-    if sp.sparse.issparse(G):
-        L = sp.sparse.eye(n)  # initialize LDL^T factorization of G_KK
-        G = G + sp.sparse.spdiags(hpeps * G.diagonal(), 0, n, n)
-    else:
-        # Avoids numpy.matrix subclass if G isn't dense.
-        L = np.eye(n)  # initialize LDL^T factorization of G_KK
-        G[np.diag_indices_from(G)] += hpeps * np.diag(G)
+    L = np.eye(n)  # initialize LDL^T factorization of G_KK
 
     K = np.full(n, False, bool)  # initially no rows in factorization
     dd = np.ones((n, 1))
@@ -243,6 +239,7 @@ def minqsw(gam, c, G, xu, xo, prt, xx=None):
                     max_diag_G = max(ddd)
 
                 return x, fct, ier, nsub
+
             xnew = x[k] + alp
             if prt and nitref > 0:
                 print(xnew, alp)
@@ -273,7 +270,6 @@ def minqsw(gam, c, G, xu, xo, prt, xx=None):
                     if prt > 1 and not free[k]:
                         print("unfixstep ", x[k], alp)
                     x[k] = xnew
-
                     g = g + alp * q
                     free[k] = 1
         # end of coordinate search
@@ -316,7 +312,6 @@ def minqsw(gam, c, G, xu, xo, prt, xx=None):
             # no free variables - no subspace step taken
             if prt > 0:
                 print("no free variables - no subspace step taken")
-
             unfix = 1
         else:
             ######################
@@ -348,9 +343,7 @@ def minqsw(gam, c, G, xu, xo, prt, xx=None):
                 if n > 1:
                     idxK = np.nonzero(K)[0]
                     if idxK.size:
-                        tmp = G[idxK, [j]]
-                        if sp.sparse.issparse(tmp):
-                            tmp = tmp.toarray()
+                        tmp = G[idxK, [j]]  # dense always
                         p[K] = np.asarray(tmp).reshape((-1, 1))
                 p[j] = G[j, j]
                 L, dd, p = ldlup(L.copy(), dd.copy(), j, p.copy())
@@ -393,7 +386,6 @@ def minqsw(gam, c, G, xu, xo, prt, xx=None):
                 oo = (xo[ind] - x[ind]) / pp
                 uu = (xu[ind] - x[ind]) / pp
 
-                # alpu = np.max(np.vstack((oo[pp < 0], uu[pp > 0], -np.inf)))
                 alpu = -np.inf
                 if len(oo[pp < 0]):
                     tmp = np.max(oo[pp < 0])
@@ -402,7 +394,6 @@ def minqsw(gam, c, G, xu, xo, prt, xx=None):
                     tmp = np.max(uu[pp > 0])
                     alpu = max(tmp, alpu)
 
-                # alpo = np.min(np.vstack((oo[pp > 0], uu[pp < 0], np.inf)))
                 alpo = np.inf
                 if len(oo[pp > 0]):
                     tmp = np.min(oo[pp > 0])
