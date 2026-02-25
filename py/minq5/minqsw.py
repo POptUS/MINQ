@@ -97,9 +97,14 @@ def minqsw(gam, c, G, xu, xo, prt, xx=None):
 
     if xx is None:
         # cold start with absolutely smallest feasible point
-        xx = np.zeros(n)
+        xx = np.zeros((n, 1))
 
     # force starting point into the box
+    xx = np.asarray(xx)
+    if xx.ndim == 1:
+        xx = xx.reshape((n, 1))
+    elif xx.ndim == 2 and xx.shape == (1, n):
+        xx = xx.T
     xx = np.maximum(xu, np.minimum(xx, xo))
 
     # regularization for low rank problems
@@ -137,7 +142,7 @@ def minqsw(gam, c, G, xu, xo, prt, xx=None):
         if np.linalg.norm(xx, np.inf) == np.inf:
             sys.exit("infinite xx in minq.m")
 
-        g = G * xx + c
+        g = G @ xx + c
         fctnew = gam + 0.5 * xx.T @ (c + g)
         if not improvement:
             # good termination
@@ -208,12 +213,12 @@ def minqsw(gam, c, G, xu, xo, prt, xx=None):
                 # complete sweep performed without fixing a new active bound
                 break
 
-            q = G[:, k]
+            q = G[:, [k]]
             alpu = xu[k] - x[k]
             alpo = xo[k] - x[k]  # bounds on step
 
             # find step size
-            [alp, lba, uba, ier] = getalp(alpu, alpo, g[k][0, 0], q[k][0, 0])
+            [alp, lba, uba, ier] = getalp(alpu, alpo, np.asarray(g[k]).ravel()[0], np.asarray(q[k]).ravel()[0])
             if ier:
                 x = np.zeros((n, 1))
                 if lba:
@@ -278,7 +283,7 @@ def minqsw(gam, c, G, xu, xo, prt, xx=None):
         if unfix and nfree_old == nfree:
             # in exact arithmetic, we are already optimal
             # recompute gradient for iterative refinement
-            g = G * x + c
+            g = G @ x + c
             nitref = nitref + 1
             if prt > 0:
                 print("optimum found; iterative refinement tried")
@@ -341,7 +346,12 @@ def minqsw(gam, c, G, xu, xo, prt, xx=None):
                 # later: speed up the following by passing K to ldlup.m!
                 p = np.zeros((n, 1))
                 if n > 1:
-                    p[K] = G[np.nonzero(K)[0], j]
+                    idxK = np.nonzero(K)[0]
+                    if idxK.size:
+                        tmp = G[idxK, [j]]
+                        if sp.sparse.issparse(tmp):
+                            tmp = tmp.toarray()
+                        p[K] = np.asarray(tmp).reshape((-1, 1))
                 p[j] = G[j, j]
                 L, dd, p = ldlup(L.copy(), dd.copy(), j, p.copy())
                 definite = len(p) == 0
