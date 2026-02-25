@@ -2,6 +2,7 @@ import sys
 
 import ipdb  # Only used when prt is > 2
 import numpy as np
+import scipy as sp
 from getalp import getalp
 from ldldown import ldldown
 from ldlup import ldlup
@@ -43,6 +44,13 @@ def minqsw(gam, c, G, xu, xo, prt, xx=None):
     NOTE (simplified): This version assumes G is a *dense* numpy array.
     All sparse-handling logic has been removed.
     """
+    if sp.sparse.issparse(G):
+        raise NotImplementedError(
+            "The use of sparse matrices is not handled presently by minq in "
+            "Python.  Please use the MATLAB implementation of minq or contact "
+            "the POptUS team if you need support of sparse G in Python."
+        )
+
     # Force dense array early
     G = np.asarray(G)
 
