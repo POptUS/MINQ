@@ -102,21 +102,19 @@ def minqsw(gam, c, G, xu, xo, prt, xx=None):
     # force starting point into the box
     xx = np.maximum(xu, np.minimum(xx, xo))
 
-    # regularization for low rank problems
+    # regularization for low rank problems & initialize LDL^T factorization of
+    # G_KK
     hpeps = 100 * eps  # perturbation in last two digits
 
     if sp.sparse.issparse(G):
+        L = sp.sparse.eye(n)
         G = G + sp.sparse.spdiags(hpeps * G.diagonal(), 0, n, n)
     else:
         # Avoids numpy.matrix subclass if G isn't dense.
+        L = np.eye(n)
         G[np.diag_indices_from(G)] += hpeps * np.diag(G)
 
-    # initialize LDL^T factorization of G_KK
     K = np.zeros(n, dtype=bool)  # initially no rows in factorization
-    if sp.sparse.issparse(G):
-        L = sp.sparse.eye(n)
-    else:
-        L = np.eye(n)
     dd = np.ones((n, 1))
 
     # dummy initialization of indicator of free variables
