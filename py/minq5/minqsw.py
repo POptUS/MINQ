@@ -9,6 +9,16 @@ from ldlup import ldlup
 from pr01 import pr01
 
 
+def _check_nan_inf(name, x):
+    arr = np.asarray(x)
+
+    if np.isnan(arr).any():
+        raise ValueError(f"{name} contains NaN.")
+
+    if np.isinf(arr).any():
+        raise ValueError(f"{name} contains Inf.")
+
+
 def minqsw(gam, c, G, xu, xo, prt, xx=None):
     """
     % function [x,fct,ier,nsub]=minq(gam,c,G,xu,xo,prt,xx)
@@ -44,6 +54,15 @@ def minqsw(gam, c, G, xu, xo, prt, xx=None):
     NOTE (simplified): This version assumes G is a *dense* numpy array.
     All sparse-handling logic has been removed.
     """
+
+    _check_nan_inf("gam", gam)
+    _check_nan_inf("c", c)
+    _check_nan_inf("G", G)
+    _check_nan_inf("xu", xu)
+    _check_nan_inf("xo", xo)
+    if xx is not None:
+        _check_nan_inf("xx", xx)
+
     # Hardcoded values
     EPS = np.finfo(float).eps  # Define machine epsilon
 
