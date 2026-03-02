@@ -9,7 +9,7 @@ from ldlup import ldlup
 from pr01 import pr01
 
 
-def _check_nan_inf(name, x):
+def _check_nan_inf(name, arr):
     if np.isnan(arr).any():
         raise ValueError(f"{name} contains NaN.")
 
