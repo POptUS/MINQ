@@ -10,8 +10,6 @@ from pr01 import pr01
 
 
 def _check_nan_inf(name, x):
-    arr = np.asarray(x)
-
     if np.isnan(arr).any():
         raise ValueError(f"{name} contains NaN.")
 
@@ -44,15 +42,17 @@ def minqsw(gam, c, G, xu, xo, prt, xx=None):
     %
     function [x,fct,ier,nsub]=minqsw(gam,c,G,xu,xo,prt,xx)
 
-    % This is minq with changes to:
+    % This is MINQ with changes to:
     % 1) max number of iterations,
     % 2) display option for exceeding maxit
     % Search for 'SW' to find specific lines
 
     % Translated from Matlab to Python by Jeffrey Larson, 2021
 
-    NOTE (simplified): This version casts G to be a standard numpy array.
-    All sparse-handling logic has been removed.
+    NOTE (simplified): The use of sparse matrices is not handled presently by
+    MINQ in Python.  Please use the MATLAB implementation of MINQ if their use
+    if required or contact the POptUS team to request support of sparse G in
+    Python.
     """
 
     # Hardcoded values
@@ -64,9 +64,10 @@ def minqsw(gam, c, G, xu, xo, prt, xx=None):
     # Current limitations
     if sp.sparse.issparse(G):
         raise NotImplementedError(
-            "The use of sparse matrices is not handled presently by minq in "
-            "Python.  Please use the MATLAB implementation of minq or contact "
-            "the POptUS team if you need support of sparse G in Python."
+            "The use of sparse matrices is not handled presently by MINQ in "
+            "Python.  Please use the MATLAB implementation of MINQ if their "
+            "use is required or contact the POptUS team to request support "
+            "of sparse G in Python."
         )
 
     # Force dense array early
@@ -90,16 +91,16 @@ def minqsw(gam, c, G, xu, xo, prt, xx=None):
     elif np.ndim(xx) == 1:
         xx = np.atleast_2d(xx).T
 
-    # check input data for consistency
+    # check input data
     _check_nan_inf("gam", gam)
     _check_nan_inf("c", c)
     _check_nan_inf("G", G)
     _check_nan_inf("xu", xu)
     _check_nan_inf("xo", xo)
-    if xx is not None:
-        _check_nan_inf("xx", xx)
+    _check_nan_inf("xx", xx)
 
-    # All vector arguments must be 2D column vectors at this point.
+    # All vector arguments must be 2D column vectors at this point with
+    # consistent shapes/sizes.
     ier = 0
     if G.shape[1] != n:
         ier = -1
