@@ -51,17 +51,9 @@ def minqsw(gam, c, G, xu, xo, prt, xx=None):
 
     % Translated from Matlab to Python by Jeffrey Larson, 2021
 
-    NOTE (simplified): This version assumes G is a *dense* numpy array.
+    NOTE (simplified): This version casts G to be a standard numpy array.
     All sparse-handling logic has been removed.
     """
-
-    _check_nan_inf("gam", gam)
-    _check_nan_inf("c", c)
-    _check_nan_inf("G", G)
-    _check_nan_inf("xu", xu)
-    _check_nan_inf("xo", xo)
-    if xx is not None:
-        _check_nan_inf("xx", xx)
 
     # Hardcoded values
     EPS = np.finfo(float).eps  # Define machine epsilon
@@ -99,7 +91,14 @@ def minqsw(gam, c, G, xu, xo, prt, xx=None):
         xx = np.atleast_2d(xx).T
 
     # check input data for consistency
-    #
+    _check_nan_inf("gam", gam)
+    _check_nan_inf("c", c)
+    _check_nan_inf("G", G)
+    _check_nan_inf("xu", xu)
+    _check_nan_inf("xo", xo)
+    if xx is not None:
+        _check_nan_inf("xx", xx)
+
     # All vector arguments must be 2D column vectors at this point.
     ier = 0
     if G.shape[1] != n:
