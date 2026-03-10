@@ -9,6 +9,14 @@ from ldlup import ldlup
 from pr01 import pr01
 
 
+def _check_nan_inf(name, arr):
+    if np.isnan(arr).any():
+        raise ValueError(f"{name} contains NaN.")
+
+    if np.isinf(arr).any():
+        raise ValueError(f"{name} contains Inf.")
+
+
 def minqsw(gam, c, G, xu, xo, prt, xx=None):
     """
     % function [x,fct,ier,nsub]=minq(gam,c,G,xu,xo,prt,xx)
@@ -19,9 +27,6 @@ def minqsw(gam, c, G, xu, xo, prt, xx=None):
     %    s.t.   x in [xu,xo]    % xu<=xo is assumed
     % where G is a symmetric n x n matrix, not necessarily definite
     % (if G is indefinite, only a local minimum is found)
-    %
-    % if G is sparse, it is assumed that the ordering is such that
-    % a sparse modified Cholesky factorization is feasible
     %
     % prt	printlevel
     % xx	initial guess (optional)
@@ -37,30 +42,65 @@ def minqsw(gam, c, G, xu, xo, prt, xx=None):
     %
     function [x,fct,ier,nsub]=minqsw(gam,c,G,xu,xo,prt,xx)
 
-    % This is minq with changes to:
+    % This is MINQ with changes to:
     % 1) max number of iterations,
     % 2) display option for exceeding maxit
     % Search for 'SW' to find specific lines
 
     % Translated from Matlab to Python by Jeffrey Larson, 2021
+
+    NOTE (simplified): The use of sparse matrices is not handled presently by
+    MINQ in Python.  Please use the MATLAB implementation of MINQ if their use
+    if required or contact the POptUS team to request support of sparse G in
+    Python.
     """
-    c = np.atleast_2d(c).T
-    xu = np.atleast_2d(xu).T
-    xo = np.atleast_2d(xo).T
+
+    # Hardcoded values
+    EPS = np.finfo(float).eps  # Define machine epsilon
+
+    # Formatting
+    np.set_printoptions(precision=16, linewidth=150)
+
+    # Current limitations
+    if sp.sparse.issparse(G):
+        raise NotImplementedError(
+            "The use of sparse matrices is not handled presently by MINQ in "
+            "Python.  Please use the MATLAB implementation of MINQ if their "
+            "use is required or contact the POptUS team to request support "
+            "of sparse G in Python."
+        )
+
+    # Force dense array early
+    G = np.asarray(G)
 
     # initialization
     convex = 0
     n = G.shape[0]
-    eps = np.finfo(float).eps  # Define machine epsilon
+
+    # We assume that vector arguments are objects that can be converted
+    # automatically to numpy arrays and are effectively 1D.
     if np.ndim(xu) == 1:
         xu = np.atleast_2d(xu).T
     if np.ndim(xo) == 1:
         xo = np.atleast_2d(xo).T
     if np.ndim(c) == 1:
         c = np.atleast_2d(c).T
+    if xx is None:
+        # cold start with absolutely smallest feasible point
+        xx = np.zeros((n, 1))
+    elif np.ndim(xx) == 1:
+        xx = np.atleast_2d(xx).T
 
-    np.set_printoptions(precision=16, linewidth=150)
-    # check input data for consistency
+    # check input data
+    _check_nan_inf("gam", gam)
+    _check_nan_inf("c", c)
+    _check_nan_inf("G", G)
+    _check_nan_inf("xu", xu)
+    _check_nan_inf("xo", xo)
+    _check_nan_inf("xx", xx)
+
+    # All vector arguments must be 2D column vectors at this point with
+    # consistent shapes/sizes.
     ier = 0
     if G.shape[1] != n:
         ier = -1
@@ -77,10 +117,9 @@ def minqsw(gam, c, G, xu, xo, prt, xx=None):
     if xo.shape[0] != n or xo.shape[1] != 1:
         ier = -1
         print("minq: upper bound has wrong dimension")
-    if xx is not None:
-        if xx.shape[0] != n or xx.shape[1] != 1:
-            ier = -1
-            print("minq: starting point has wrong dimension")
+    if xx.shape[0] != n or xx.shape[1] != 1:
+        ier = -1
+        print("minq: starting point has wrong dimension")
     if ier == -1:
         x = np.full(n, np.nan, float)
         fct = np.nan
@@ -94,24 +133,17 @@ def minqsw(gam, c, G, xu, xo, prt, xx=None):
     nitrefmax = 3  # maximal number of iterative refinement steps
 
     # initialize trial point xx, function value fct and gradient g
-
-    if xx is None:
-        # cold start with absolutely smallest feasible point
-        xx = np.zeros(n)
-
+    #
     # force starting point into the box
     xx = np.maximum(xu, np.minimum(xx, xo))
 
     # regularization for low rank problems
-    hpeps = 100 * eps  # perturbation in last two digits
-    G = G + sp.sparse.spdiags(hpeps * np.diag(G), 0, n, n)
+    hpeps = 100 * EPS  # perturbation in last two digits
+    G[np.diag_indices_from(G)] += hpeps * np.diag(G)
 
-    # initialize LDL^T factorization of G_KK
-    K = np.zeros(n, dtype=bool)  # initially no rows in factorization
-    if sp.sparse.issparse(G):
-        L = sp.sparse.eye(n)
-    else:
-        L = np.eye(n)
+    L = np.eye(n)  # initialize LDL^T factorization of G_KK
+
+    K = np.full(n, False, bool)  # initially no rows in factorization
     dd = np.ones((n, 1))
 
     # dummy initialization of indicator of free variables
@@ -135,7 +167,7 @@ def minqsw(gam, c, G, xu, xo, prt, xx=None):
         if np.linalg.norm(xx, np.inf) == np.inf:
             sys.exit("infinite xx in minq.m")
 
-        g = G * xx + c
+        g = G @ xx + c
         fctnew = gam + 0.5 * xx.T @ (c + g)
         if not improvement:
             # good termination
@@ -206,12 +238,12 @@ def minqsw(gam, c, G, xu, xo, prt, xx=None):
                 # complete sweep performed without fixing a new active bound
                 break
 
-            q = G[:, k]
+            q = G[:, [k]]
             alpu = xu[k] - x[k]
             alpo = xo[k] - x[k]  # bounds on step
 
             # find step size
-            [alp, lba, uba, ier] = getalp(alpu, alpo, g[k][0, 0], q[k][0, 0])
+            [alp, lba, uba, ier] = getalp(alpu, alpo, np.asarray(g[k]).ravel()[0], np.asarray(q[k]).ravel()[0])
             if ier:
                 x = np.zeros((n, 1))
                 if lba:
@@ -236,6 +268,7 @@ def minqsw(gam, c, G, xu, xo, prt, xx=None):
                     max_diag_G = max(ddd)
 
                 return x, fct, ier, nsub
+
             xnew = x[k] + alp
             if prt and nitref > 0:
                 print(xnew, alp)
@@ -276,7 +309,7 @@ def minqsw(gam, c, G, xu, xo, prt, xx=None):
         if unfix and nfree_old == nfree:
             # in exact arithmetic, we are already optimal
             # recompute gradient for iterative refinement
-            g = G * x + c
+            g = G @ x + c
             nitref = nitref + 1
             if prt > 0:
                 print("optimum found; iterative refinement tried")
@@ -339,7 +372,10 @@ def minqsw(gam, c, G, xu, xo, prt, xx=None):
                 # later: speed up the following by passing K to ldlup.m!
                 p = np.zeros((n, 1))
                 if n > 1:
-                    p[K] = G[np.nonzero(K)[0], j]
+                    idxK = np.nonzero(K)[0]
+                    if idxK.size:
+                        tmp = G[idxK, [j]]  # dense always
+                        p[K] = np.asarray(tmp).reshape((-1, 1))
                 p[j] = G[j, j]
                 L, dd, p = ldlup(L.copy(), dd.copy(), j, p.copy())
                 definite = len(p) == 0
@@ -405,7 +441,7 @@ def minqsw(gam, c, G, xu, xo, prt, xx=None):
                 # find step size
                 gTp = g.T @ p
                 agTp = abs(g).T @ abs(p)
-                if abs(gTp) < 100 * eps * agTp:
+                if abs(gTp) < 100 * EPS * agTp:
                     # linear term consists of roundoff only
                     gTp = 0
 
