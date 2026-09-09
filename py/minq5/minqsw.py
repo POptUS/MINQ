@@ -70,8 +70,9 @@ def minqsw(gam, c, G, xu, xo, prt, xx=None):
             "of sparse G in Python."
         )
 
-    # Force dense array early
-    G = np.asarray(G)
+    # Force dense array early. Copy G so the regularization below doesn't
+    # (possibly) affect G from a calling script.
+    G = np.array(G, copy=True)
 
     # initialization
     convex = 0
