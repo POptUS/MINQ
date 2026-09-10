@@ -40,6 +40,9 @@ def minqsw(gam, c, G, xu, xo, prt, xx=None):
     %
     % calls getalp.m, ldl*.m, minqsub.m, pr01.m
     %
+
+    None of the provided arguments are altered by this function.
+
     function [x,fct,ier,nsub]=minqsw(gam,c,G,xu,xo,prt,xx)
 
     % This is MINQ with changes to:
@@ -70,27 +73,21 @@ def minqsw(gam, c, G, xu, xo, prt, xx=None):
             "of sparse G in Python."
         )
 
-    # Force dense array early. Copy G so the regularization below doesn't
-    # (possibly) affect G from a calling script.
-    G = np.array(G, copy=True)
-
-    # initialization
-    convex = 0
-    n = G.shape[0]
-
-    # We assume that vector arguments are objects that can be converted
-    # automatically to numpy arrays and are effectively 1D.
-    if np.ndim(xu) == 1:
-        xu = np.atleast_2d(xu).T
-    if np.ndim(xo) == 1:
-        xo = np.atleast_2d(xo).T
-    if np.ndim(c) == 1:
-        c = np.atleast_2d(c).T
+    # In accordance with the inline documentation, use local copies of passed
+    # arguments to avoid accidentally altering calling code's arrays.
+    #
+    # For G, this also forces the use of a dense array early.
+    G = np.atleast_2d(np.squeeze(np.array(G, copy=True)))
+    # We assume that vector arguments are effectively 1D objects that can be
+    # converted correctly to 2D NumPy column vectors.
+    c = np.atleast_2d(np.squeeze(np.array(c, copy=True))).T
+    xu = np.atleast_2d(np.squeeze(np.array(xu, copy=True))).T
+    xo = np.atleast_2d(np.squeeze(np.array(xo, copy=True))).T
     if xx is None:
         # cold start with absolutely smallest feasible point
-        xx = np.zeros((n, 1))
-    elif np.ndim(xx) == 1:
-        xx = np.atleast_2d(xx).T
+        xx = np.zeros((G.shape[0], 1))
+    else:
+        xx = np.atleast_2d(np.squeeze(np.array(xx, copy=True))).T
 
     # check input data
     _check_nan_inf("gam", gam)
@@ -100,25 +97,24 @@ def minqsw(gam, c, G, xu, xo, prt, xx=None):
     _check_nan_inf("xo", xo)
     _check_nan_inf("xx", xx)
 
-    # All vector arguments must be 2D column vectors at this point with
-    # consistent shapes/sizes.
     ier = 0
-    if G.shape[1] != n:
+    n = G.shape[0]
+    if G.ndim != 2 or G.shape[1] != n:
         ier = -1
         print("minq: Hessian has wrong dimension")
     if not np.allclose(G, G.T, rtol=1e-12, atol=1e-12):
         ier = -1
         print("minq: Hessian is not symmetric")
-    if c.shape[0] != n or c.shape[1] != 1:
+    if c.ndim != 2 or c.shape[0] != n or c.shape[1] != 1:
         ier = -1
         print("minq: linear term has wrong dimension")
-    if xu.shape[0] != n or xu.shape[1] != 1:
+    if xu.ndim != 2 or xu.shape[0] != n or xu.shape[1] != 1:
         ier = -1
         print("minq: lower bound has wrong dimension")
-    if xo.shape[0] != n or xo.shape[1] != 1:
+    if xo.ndim != 2 or xo.shape[0] != n or xo.shape[1] != 1:
         ier = -1
         print("minq: upper bound has wrong dimension")
-    if xx.shape[0] != n or xx.shape[1] != 1:
+    if xx.ndim != 2 or xx.shape[0] != n or xx.shape[1] != 1:
         ier = -1
         print("minq: starting point has wrong dimension")
     if ier == -1:
@@ -126,6 +122,9 @@ def minqsw(gam, c, G, xu, xo, prt, xx=None):
         fct = np.nan
         nsub = -1
         return x, fct, ier, nsub
+
+    # initialization
+    convex = 0
 
     maxit = 3 * n  # maximal number of iterations
     maxit = 5 * n  # maximal number of iterations % Changed by SW
